@@ -18,10 +18,10 @@ public class CriteriaQueryExample {
 
     public static void main(String[] args) {
         CriteriaQueryExample criteriaQueryExample = new CriteriaQueryExample();
-        EntityManagerFactory sessionFactory = CriteriaQueryExample.entityManagerFactory();
-        criteriaQueryExample.queryUsers(sessionFactory);
-        criteriaQueryExample.update(sessionFactory);
-        criteriaQueryExample.queryUsers(sessionFactory);
+        EntityManagerFactory entityManagerFactory = CriteriaQueryExample.entityManagerFactory();
+        criteriaQueryExample.queryUsers(entityManagerFactory);
+        criteriaQueryExample.update(entityManagerFactory);
+        criteriaQueryExample.queryUsers(entityManagerFactory);
 //        criteriaQueryExample.delete();
     }
 
