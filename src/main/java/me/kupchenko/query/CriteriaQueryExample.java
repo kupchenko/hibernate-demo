@@ -18,48 +18,56 @@ public class CriteriaQueryExample {
 
     public static void main(String[] args) {
         CriteriaQueryExample criteriaQueryExample = new CriteriaQueryExample();
-        criteriaQueryExample.queryUsers();
-        criteriaQueryExample.update();
+        EntityManagerFactory sessionFactory = CriteriaQueryExample.entityManagerFactory();
+        criteriaQueryExample.queryUsers(sessionFactory);
+        criteriaQueryExample.update(sessionFactory);
+        criteriaQueryExample.queryUsers(sessionFactory);
+//        criteriaQueryExample.delete();
     }
 
-    public void queryUsers() {
-        EntityManager entityManager = getSessionFactory().createEntityManager();
+    public void queryUsers(EntityManagerFactory entityManagerFactory) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> from = query.from(User.class);
-        query.where(cb.like(from.get("name"), "%Hibernate%"));
+        query.where(cb.like(from.get("name"), "%a%"));
         TypedQuery<User> q = entityManager.createQuery(query);
         List<User> resultList = q.getResultList();
         resultList.forEach(System.out::println);
     }
 
-    public void update() {
-        EntityManager entityManager = getSessionFactory().createEntityManager();
+    public void update(EntityManagerFactory entityManagerFactory) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaUpdate<User> query = cb.createCriteriaUpdate(User.class);
         Root<User> from = query.from(User.class);
+        query.set("name", "new_v");
         query.where(cb.equal(from.get("id"), "7"));
         Query q = entityManager.createQuery(query);
         int updatedCount = q.executeUpdate();
-        System.out.println("Updated rows" + updatedCount);
+        entityManager.getTransaction().commit();
+        System.out.println("Updated rows " + updatedCount);
     }
 
     public void create() {
         //All possible modes of Criteria (SELECT, UPDATE, DELETE)
     }
 
-    public void delete() {
-        EntityManager entityManager = getSessionFactory().createEntityManager();
+    public void delete(EntityManagerFactory entityManagerFactory) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaDelete<User> query = cb.createCriteriaDelete(User.class);
         Root<User> from = query.from(User.class);
         query.where(cb.equal(from.get("id"), "7"));
         Query q = entityManager.createQuery(query);
         int updatedCount = q.executeUpdate();
+        entityManager.getTransaction().commit();
         System.out.println("Updated rows" + updatedCount);
     }
 
-    private EntityManagerFactory getSessionFactory() {
+    private static EntityManagerFactory entityManagerFactory() {
         return Persistence.createEntityManagerFactory("hibernate.jpa");
     }
 }
