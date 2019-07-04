@@ -22,9 +22,10 @@ public class CriteriaQueryExample {
         criteriaQueryExample.queryUsers(entityManagerFactory);
         criteriaQueryExample.update(entityManagerFactory);
         criteriaQueryExample.queryUsers(entityManagerFactory);
-//        criteriaQueryExample.delete();
+        criteriaQueryExample.delete(entityManagerFactory);
     }
 
+    //SELECT * FROM users WHERE name like '%a%'
     public void queryUsers(EntityManagerFactory entityManagerFactory) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();

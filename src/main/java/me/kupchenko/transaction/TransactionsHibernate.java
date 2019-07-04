@@ -1,4 +1,4 @@
-package me.kupchenko;
+package me.kupchenko.transaction;
 
 import me.kupchenko.hibernate.HibernateUser;
 import org.hibernate.Session;

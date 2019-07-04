@@ -39,7 +39,7 @@ public class JpaDemo {
         entityManager.getTransaction().begin();
         List<User> result = entityManager.createQuery("from User", User.class).getResultList();
         for (User event : result) {
-            System.out.println("User (" + event.getId() + ") : " + event.getName());
+            System.out.println("User (" + event.getId() + ") : " + event.getName() + ", ROLES [" + event.getRoles() + "]");
         }
         entityManager.getTransaction().commit();
         entityManager.close();
